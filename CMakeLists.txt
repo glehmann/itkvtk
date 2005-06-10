@@ -859,4 +859,4 @@ SET(WRAP_SOURCES
   wrap_itkVTKImageToImageFilter
 )
 
-ITK_WRAP_LIBRARY("${WRAP_SOURCES}" VItk "" "" "" "")
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" IVtk "" "" "" "")
