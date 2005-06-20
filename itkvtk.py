@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 
-import InsightToolkit, vtk, IVtkPython
+import InsightToolkit, vtk, itkvtkPython
 
 def initDict() :
 	"""
@@ -32,7 +32,7 @@ def initDict() :
 	
 	# compile regexp which will be used to find itk classes with types.
 	typeRegexp = re.compile(r'^itk([a-zA-Z0-9]+?[a-z])([A-Z]*[0-9][A-Z0-9]*)(_.*$|Ptr)')
-	for f in dir(IVtkPython) :
+	for f in dir(itkvtkPython) :
 		if f.startswith('itk') :
 			typeRes = typeRegexp.findall(f)
 			if typeRes != [] :
@@ -57,7 +57,7 @@ class ItkClassType :
 	def __init__(self, name, t, funcs) :
 		self.__name__ = name
 		self.__type__ = t
-		self.__function__ = getattr(IVtkPython, 'itk%s%s' % (name, t))		
+		self.__function__ = getattr(itkvtkPython, 'itk%s%s' % (name, t))		
 		for func in funcs :
 			# attribute name must not have _ prefix
 			if func[0] == '_' :
@@ -66,7 +66,7 @@ class ItkClassType :
 				attrib = func
 				
 			# get the function to add as attribute
-			function = getattr(IVtkPython, 'itk%s%s%s' % (name, t, func))
+			function = getattr(itkvtkPython, 'itk%s%s%s' % (name, t, func))
 			
 			if attrib == 'New' :
 				# to make prototyping easier, allow to pass parameter(s) to New function
@@ -138,4 +138,4 @@ for name, types in typeDict.iteritems() :
 # remove vars used to create module attribute
 del typeDict, name, types, initDict
 # the same for classes and modules
-del ItkClass, ItkClassType, InsightToolkit, vtk, IVtkPython
+del ItkClass, ItkClassType, InsightToolkit, vtk, itkvtkPython
