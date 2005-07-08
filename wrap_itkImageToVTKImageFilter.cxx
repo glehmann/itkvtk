@@ -32,10 +32,12 @@ namespace _cable_
     //===========2D Wrapped Filters==============
     ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::F2 , itkImageToVTKImageFilterF2  );
     ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::US2, itkImageToVTKImageFilterUS2);
+    ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::UC2, itkImageToVTKImageFilterUC2);
 
     //===========3D Wrapped Filters==============
     ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::F3 , itkImageToVTKImageFilterF3  );
     ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::US3, itkImageToVTKImageFilterUS3);
+    ITK_WRAP_OBJECT1(ImageToVTKImageFilter, image::UC3, itkImageToVTKImageFilterUC3);
   }
 }
 #endif
