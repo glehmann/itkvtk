@@ -29,6 +29,11 @@
 }
 
 %include std_string.i
+%include "std_vector.i"
+%template(IntVector) std::vector<int>;
+%template(DoubleVector) std::vector<double>;
+      
+%rename(__getitem__) *::operator[];
 
 /* disable this c linkage warning on windows */
 %{
@@ -37,6 +42,16 @@
 #pragma warning ( disable : 4049 )
 #endif
 %}
+
+      
+%{
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+%}
+
+
 
 %{
 #include "vtkImageImport.h"

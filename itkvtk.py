@@ -73,12 +73,14 @@ class ItkClassType :
 				# I can't understand why, but it don't work in pure functional style: I can't 
 				# use function() in New defined below :-(
 				self.__new__ = function
-				def New(inputSrc=None) :
+				def New(inputSrc=None, Input=None) :
 					# create a new New function to manage parameters
 					ret = self.__new__()
 					if inputSrc :
 						ret.SetInput(inputSrc.GetOutput())
-						
+                                        if Input :
+					    ret.SetInput(Input)
+											    
 					return ret
 				
 				# finally, set our own New function as self.New

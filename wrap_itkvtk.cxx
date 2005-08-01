@@ -21,7 +21,7 @@ namespace _cable_
   const char* const package = ITK_WRAP_PACKAGE_NAME(ITK_WRAP_PACKAGE);
   const char* const groups[] =
   {
-    ITK_WRAP_GROUP(itkVTKImageToImageFilter),
+//    ITK_WRAP_GROUP(itkVTKImageToImageFilter),
     ITK_WRAP_GROUP(itkImageToVTKImageFilter),
   };
 }

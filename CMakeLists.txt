@@ -856,7 +856,7 @@ ENDMACRO(ITK_WRAP_LIBRARY)
 
 SET(WRAP_SOURCES
   wrap_itkImageToVTKImageFilter
-  wrap_itkVTKImageToImageFilter
+#  wrap_itkVTKImageToImageFilter
 )
 
 ITK_WRAP_LIBRARY("${WRAP_SOURCES}" itkvtk "" "" "" "")
