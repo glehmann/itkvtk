@@ -1,7 +1,7 @@
 # This file demonstrates how to connect VTK and ITK pipelines together
 # in scripted languages with the new ConnectVTKITK wrapping functionality.
 # Data is loaded in with VTK, processed with ITK and written back to disc
-# with VTK. 
+# with  
 #
 # For this to work, you have to build InsightApplications/ConnectVTKITK
 # as well.
@@ -10,34 +10,38 @@
 #
 # -- Charl P. Botha <cpbotha AT ieee.org>
 
-import itk, vtk, ivtk
+import itk, itkvtk
+from vtk import *
 
 itk.auto_progress = True
 
 # VTK will read the PNG image for us
-reader = vtk.vtkPNGReader()
+reader = vtkPNGReader()
 reader.SetFileName("/usr/share/itk-data/Input/cthead1.png")
 
 # it has to be a single component, itk::VTKImageImport doesn't support more
-lum = vtk.vtkImageLuminance()
+lum = vtkImageLuminance()
 lum.SetInput(reader.GetOutput())
 
 # let's cast the output to float
-imageCast = vtk.vtkImageCast()
+imageCast = vtkImageCast()
 imageCast.SetOutputScalarTypeToFloat()
 imageCast.SetInput(lum.GetOutput())
 
-vtk2itk = ivtk.VTKImageToImageFilter.F2.New(imageCast)
+cannyImgType = itk.Image[itk.F, 2]
+vtk2itk = itk.VTKImageToImageFilter[cannyImgType].New(imageCast)
 
-canny  = itk.CannyEdgeDetectionImageFilter.F2F2.New(vtk2itk)
-rescaler = itk.RescaleIntensityImageFilter.F2US2.New(canny, OutputMinimum=0, OutputMaximum=65535)
+canny  = itk.CannyEdgeDetectionImageFilter[cannyImgType, cannyImgType].New(vtk2itk)
 
-itk2vtk = ivtk.ImageToVTKImageFilter.US2.New(rescaler)
+writerImgType = itk.Image[itk.US, 2]
+rescaler = itk.RescaleIntensityImageFilter[cannyImgType, writerImgType].New(canny)
+
+itk2vtk = iImageToVTKImageFilter[writerImgType].New(rescaler)
 
 # finally write the image to disk using VTK
-writer = vtk.vtkPNGWriter()
+writer = vtkPNGWriter()
 writer.SetFileName('./testout.png')
-writer.SetInput(itk2vtk.GetOutput())
+writer.SetInput(itk2GetOutput())
 
 # before we call Write() on the writer, it is prudent to give
 # our ITK pipeline an Update() call... this is not necessary
