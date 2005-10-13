@@ -50,4 +50,7 @@ IF(WRAP_PYTHON OR WRAP_TCL OR WRAP_JAVA)
 ENDIF(WRAP_PYTHON OR WRAP_TCL OR WRAP_JAVA)
 
 #-----------------------------------------------------------------------------
-
+INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${itkvtk_SOURCE_DIR}/src/itkImageToVTKImageFilter.h)
+INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${itkvtk_SOURCE_DIR}/src/itkImageToVTKImageFilter.txx)
+INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${itkvtk_SOURCE_DIR}/src/itkVTKImageToImageFilter.h)
+INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${itkvtk_SOURCE_DIR}/src/itkVTKImageToImageFilter.txx)
