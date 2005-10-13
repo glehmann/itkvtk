@@ -5,13 +5,6 @@ SET(SWIG_INC ${VTK_INCLUDE_DIRS} ${ITK_INCLUDE_DIRS}
                     ${itkvtk_SOURCE_DIR}
   )
 #------------------------------------------------------------------------------
-SET(ITK_CSWIG_PYTHON ${WRAP_PYTHON})
-IF(ITK_CSWIG_PYTHON)
-   FIND_PACKAGE(PythonLibs)
-   INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
-ENDIF(ITK_CSWIG_PYTHON)
-
-#------------------------------------------------------------------------------
 INCLUDE("${ITK_SOURCE_DIR}/Wrapping/CSwig/itkConfigWrapping.cmake")
 INCLUDE("${ITK_SOURCE_DIR}/Wrapping/CSwig/WrapTypeBase.cmake")
 INCLUDE("${ITK_SOURCE_DIR}/Wrapping/CSwig/WrapITK.cmake")
@@ -23,6 +16,19 @@ SET(ITK_LIBRARY "${MODULE_NAME}")
 STRING(TOLOWER ${ITK_LIBRARY} ITK_LIBRARY_LANG)
 SET(ITK_LANG_FILE "${itkvtk_BINARY_DIR}/Wrapping/${ITK_LIBRARY}")
 SET(WrapITK_PART_DIR "${itkvtk_BINARY_DIR}/Wrapping")
+
+SET(ITK_CSWIG_PYTHON ${WRAP_PYTHON})
+IF(ITK_CSWIG_PYTHON)
+  FIND_PACKAGE(PythonLibs)
+  INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+  INSTALL_FILES(/lib/InsightToolkit FILES "${itkvtk_BINARY_DIR}/Wrapping/${MODULE_NAME}Py.py")
+  INSTALL_FILES(/lib/InsightToolkit FILES "${itkvtk_BINARY_DIR}/Wrapping/${MODULE_NAME}.py")
+  INSTALL_FILES(/lib/InsightToolkit FILES "${itkvtk_BINARY_DIR}/bin/ITK${MODULE_NAME}Python.py")
+  INSTALL_FILES(/lib/InsightToolkit/python FILES "${itkvtk_SOURCE_DIR}/Wrapping/Python/${ITK_LIBRARY_LANG}.py")
+ENDIF(ITK_CSWIG_PYTHON)
+
+
+
 WRITE_LANG_BEGIN(${ITK_LIBRARY})
 
 #------------------------------------------------------------------------------
@@ -44,7 +50,10 @@ WRITE_MODULE("ItkVtk" "${WrapITK_PART_DIR}" "${WRAP_GROUPS}")
 # create the ITKBasicFilters libraries
 SET(WRAP_SOURCES "")
 FOREACH(file ${WRAP_GROUPS})
-   SET(WRAP_SOURCES ${WRAP_SOURCES} wrap_${file})
+  SET(WRAP_SOURCES ${WRAP_SOURCES} wrap_${file})
+  IF(ITK_CSWIG_PYTHON)
+    INSTALL_FILES(/lib/InsightToolkit/python FILES "${itkvtk_BINARY_DIR}/bin/${file}.py")
+  ENDIF(ITK_CSWIG_PYTHON)
 ENDFOREACH(file ${WRAP_GROUPS})
    
 SET(SWIG_INC
