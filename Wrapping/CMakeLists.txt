@@ -48,9 +48,7 @@ WRITE_MODULE("ItkVtk" "${WrapITK_PART_DIR}" "${WRAP_GROUPS}")
 
 #------------------------------------------------------------------------------
 # create the ITKBasicFilters libraries
-SET(WRAP_SOURCES "")
 FOREACH(file ${WRAP_GROUPS})
-  SET(WRAP_SOURCES ${WRAP_SOURCES} wrap_${file})
   IF(ITK_CSWIG_PYTHON)
     INSTALL_FILES(/lib/InsightToolkit/python FILES "${itkvtk_BINARY_DIR}/bin/${file}.py")
   ENDIF(ITK_CSWIG_PYTHON)
@@ -72,7 +70,7 @@ SET(MASTER_INDEX_FILES
 SET(ITK_SWG_FILES ${ITK_SWG_FILES} "${itkvtk_SOURCE_DIR}/Wrapping/itk.swg")
 
 
-ITK_WRAP_LIBRARY("${WRAP_SOURCES}" "ITK${MODULE_NAME}"
+ITK_WRAP_LIBRARY("${WRAP_GROUPS}" "ITK${MODULE_NAME}"
 "Wrapping" "" "" "${ITK_LIBRARIES}"
   "${MASTER_INDEX_FILES}" "${itkvtk_SOURCE_DIR}"
 "${itkvtk_BINARY_DIR}")
